@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3dac8023f29829889c3605bb35def058",
+    "content-hash": "533f6d51111a29401358771399eeff3d",
     "packages": [
         {
             "name": "gmostafa/php-graphql-client",
