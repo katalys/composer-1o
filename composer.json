@@ -1,6 +1,14 @@
 {
+  "name": "1oio/composer-1o",
+  "description": "Composer package for 1o integration",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "oneO\\": "src/"
+    }
+  },
   "require": {
     "paragonie/paseto": "^1.1",
-    "webonyx/graphql-php": "^14.11"
+    "gmostafa/php-graphql-client": "^1.13"
   }
 }
