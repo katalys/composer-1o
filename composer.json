@@ -1,5 +1,5 @@
 {
-  "name": "1oio/composer-1o",
+  "name": "oneo/composer-1o",
   "description": "Composer package for 1o integration",
   "type": "library",
   "autoload": {
