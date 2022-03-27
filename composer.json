@@ -1,0 +1,6 @@
+{
+  "require": {
+    "paragonie/paseto": "^1.1",
+    "webonyx/graphql-php": "^14.11"
+  }
+}
