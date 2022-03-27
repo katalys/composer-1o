@@ -1,6 +1,6 @@
 <?php
 
-namespace oneO\Model;
+namespace OneO\Model;
 
 class PasetoToken
 {
