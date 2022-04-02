@@ -85,8 +85,20 @@ class GraphQL
                 'shippingAddressLine_2',
                 'shippingName',
                 'shippingEmail',
+                'shippingPhone',
                 'shippingAddressSubdivision',
                 'shippingAddressSubdivisionCode',
+                'billingName',
+                'billingEmail',
+                'billingPhone',
+                'billingAddressZip',
+                'billingAddressCity',
+                'billingAddressCountry',
+                'billingAddressCountryCode',
+                'billingAddressLine_1',
+                'billingAddressLine_2',
+                'billingAddressSubdivision',
+                'billingAddressSubdivisionCode',
             ]);
 
         return json_decode($this->client->runQuery($gql, true, ['id' => $id])->getResponseBody(), true)["data"]["order"];
