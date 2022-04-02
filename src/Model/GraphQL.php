@@ -94,7 +94,7 @@ class GraphQL
 
     public function updateShippingRates($orderId, $shippingRates)
     {
-        $gql = $mutation = (new \GraphQL\Mutation('updateOrder'))
+        $gql = (new \GraphQL\Mutation('updateOrder'))
             ->setVariables(
                 [
                     new \GraphQL\Variable('id', 'ID', true),
@@ -122,6 +122,38 @@ class GraphQL
             [
                 'id' => $orderId,
                 'input' => ["shippingRates" => $shippingRates]
+            ]
+        )->getResponseBody(), true);
+    }
+
+    public function updateTaxes($orderId, $taxes)
+    {
+        $gql = (new \GraphQL\Mutation('updateOrder'))
+            ->setVariables(
+                [
+                    new \GraphQL\Variable('id', 'ID', true),
+                    new \GraphQL\Variable('input', 'OrderInput', true)
+                ]
+            )
+            ->setArguments(['id' => '$id', 'input' => '$input'])
+            ->setSelectionSet(
+                [
+                    'totalTax',
+                    (new \GraphQL\Query('lineItems'))
+                        ->setSelectionSet(
+                            [
+                                'tax'
+                            ]
+                        ),
+                ]
+            );
+
+        return json_decode($this->client->runQuery(
+            $gql,
+            true,
+            [
+                'id' => $orderId,
+                'input' => ["shippingRates" => $taxes]
             ]
         )->getResponseBody(), true);
     }
