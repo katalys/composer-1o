@@ -58,4 +58,35 @@ class GraphQL
         return $this->getProductBySpecificId("id", $id);
     }
 
+    public function getOrderDetails($id)
+    {
+        $gql = (new \GraphQL\Query('order'))
+            ->setVariables([new \GraphQL\Variable("id", "ID", true)])
+            ->setArguments(["id" => '$id'])
+            ->setSelectionSet([
+                'id',
+                'externalId',
+                (new \GraphQL\Query('lineItems'))
+                    ->setSelectionSet(
+                        [
+                            'productExternalId',
+                            'variantExternalId',
+                            'quantity'
+                        ]
+                    ),
+                'shippingAddressZip',
+                'shippingAddressCity',
+                'shippingAddressCountry',
+                'shippingAddressCountryCode',
+                'shippingAddressLine_1',
+                'shippingAddressLine_2',
+                'shippingName',
+                'shippingEmail',
+                'shippingAddressSubdivision',
+                'shippingAddressSubdivisionCode',
+            ]);
+
+        return $this->client->runQuery($gql, true, ['id' => $id])->getResponseBody();
+    }
+
 }
