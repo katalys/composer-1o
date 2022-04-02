@@ -17,7 +17,8 @@ class GraphQL
         return $this->client->runQuery($gql)->getResponseBody();
     }
 
-    public function createProduct($product) {
+    public function createProduct($product)
+    {
         $gql = $mutation = (new \GraphQL\Mutation('createProduct'))
             ->setVariables([new \GraphQL\Variable('input', 'ProductInput', true)])
             ->setArguments(['input' => '$input'])
@@ -28,8 +29,9 @@ class GraphQL
         return $this->client->runQuery($gql, true, ['input' => $product]);
     }
 
-    public function getProductBySpecificId($identificatorName, $idValue) {
-        switch($identificatorName) {
+    public function getProductBySpecificId($identificatorName, $idValue)
+    {
+        switch ($identificatorName) {
             case 'id':
                 $type = "ID";
                 break;
@@ -40,7 +42,7 @@ class GraphQL
 
         $gql = (new \GraphQL\Query('product'))
             ->setVariables([new \GraphQL\Variable($identificatorName, $type, true)])
-            ->setArguments([$identificatorName => '$'.$identificatorName])
+            ->setArguments([$identificatorName => '$' . $identificatorName])
             ->setSelectionSet([
                 'id'
             ]);
@@ -87,5 +89,39 @@ class GraphQL
             ]);
 
         return json_decode($this->client->runQuery($gql, true, ['id' => $id])->getResponseBody(), true)["data"]["order"];
+    }
+
+    public function updateShippingRates($orderId, $shippingRates)
+    {
+        $gql = $mutation = (new \GraphQL\Mutation('updateOrder'))
+            ->setVariables(
+                [
+                    new \GraphQL\Variable('id', 'ID', true),
+                    new \GraphQL\Variable('input', 'OrderInput', true)
+                ]
+            )
+            ->setArguments(['id' => '$id', 'input' => '$input'])
+            ->setSelectionSet(
+                [
+                    'id',
+                    (new \GraphQL\Query('shippingRates'))
+                        ->setSelectionSet(
+                            [
+                                'handle',
+                                'amount',
+                                'title'
+                            ]
+                        ),
+                ]
+            );
+
+        return json_decode($this->client->runQuery(
+            $gql,
+            true,
+            [
+                'id' => $orderId,
+                'input' => ["shippingRates" => $shippingRates]
+            ]
+        )->getResponseBody(), true);
     }
 }
