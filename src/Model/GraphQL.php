@@ -86,7 +86,6 @@ class GraphQL
                 'shippingAddressSubdivisionCode',
             ]);
 
-        return $this->client->runQuery($gql, true, ['id' => $id])->getResponseBody();
+        return json_decode($this->client->runQuery($gql, true, ['id' => $id])->getResponseBody(), true)["data"]["order"];
     }
-
 }
