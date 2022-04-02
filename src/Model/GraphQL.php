@@ -71,6 +71,7 @@ class GraphQL
                 (new \GraphQL\Query('lineItems'))
                     ->setSelectionSet(
                         [
+                            'id',
                             'productExternalId',
                             'variantExternalId',
                             'quantity'
