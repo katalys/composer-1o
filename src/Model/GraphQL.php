@@ -153,7 +153,7 @@ class GraphQL
             true,
             [
                 'id' => $orderId,
-                'input' => ["shippingRates" => $taxes]
+                'input' => $taxes
             ]
         )->getResponseBody(), true);
     }
