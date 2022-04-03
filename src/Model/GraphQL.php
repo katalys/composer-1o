@@ -99,6 +99,7 @@ class GraphQL
                 'billingAddressLine_2',
                 'billingAddressSubdivision',
                 'billingAddressSubdivisionCode',
+                'chosenShippingRateHandle'
             ]);
 
         return json_decode($this->client->runQuery($gql, true, ['id' => $id])->getResponseBody(), true)["data"]["order"];
