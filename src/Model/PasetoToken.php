@@ -24,25 +24,26 @@ class PasetoToken
 
         return $this->token;
     }
-    
+
     public function verifyToken($token, $sharedKey, $footer)
     {
         $key = new \ParagonIE\Paseto\Keys\SymmetricKey(base64_decode($sharedKey));
         $footer = \ParagonIE\ConstantTime\Base64UrlSafe::decode($footer);
         $decryptedToken = \ParagonIE\Paseto\Protocol\Version2::decrypt($token, $key, $footer);
         $rawDecryptedToken = json_decode($decryptedToken);
+
         if (is_object($rawDecryptedToken) && isset($rawDecryptedToken->exp)) {
             $checkTime = new \DateTime('NOW');
             $checkTime = $checkTime->format(\DateTime::ATOM);
             $tokenExp = new \DateTime($rawDecryptedToken->exp);
             $tokenExp = $tokenExp->format(\DateTime::ATOM);
             if ($checkTime > $tokenExp) {
-                return true; // expired - do nothing else!!
+                return false; // expired - do nothing else!!
             } else {
-                return false; // trust token - not expired and has valid signature.
+                return true; // trust token - not expired and has valid signature.
             }
         } else {
-            return true;
+            return false;
         }
     }
 }
