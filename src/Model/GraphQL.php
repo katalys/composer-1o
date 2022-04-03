@@ -170,4 +170,33 @@ class GraphQL
             ]
         )->getResponseBody(), true);
     }
+
+    public function completeOrder($orderId)
+    {
+        $gql = (new \GraphQL\Mutation('updateOrder'))
+            ->setVariables(
+                [
+                    new \GraphQL\Variable('id', 'ID', true),
+                    new \GraphQL\Variable('input', 'OrderInput', true)
+                ]
+            )
+            ->setArguments(['id' => '$id', 'input' => '$input'])
+            ->setSelectionSet(
+                [
+                    'id',
+                    'fulfillmentStatus'
+                ]
+            );
+
+        return json_decode($this->client->runQuery(
+            $gql,
+            true,
+            [
+                'id' => $orderId,
+                'input' => [
+                    "fulfillmentStatus" => "FULFILLED"
+                ]
+            ]
+        )->getResponseBody(), true);
+    }
 }
