@@ -28,6 +28,7 @@ class PasetoToken
     public function verifyToken($token, $sharedKey, $footer)
     {
         $key = new \ParagonIE\Paseto\Keys\SymmetricKey(base64_decode($sharedKey));
+        $footer = \ParagonIE\ConstantTime\Base64UrlSafe::decode($footer);
         $decryptedToken = \ParagonIE\Paseto\Protocol\Version2::decrypt($token, $key, $footer);
         $rawDecryptedToken = json_decode($decryptedToken);
         if (is_object($rawDecryptedToken) && isset($rawDecryptedToken->exp)) {
