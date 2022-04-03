@@ -171,7 +171,7 @@ class GraphQL
         )->getResponseBody(), true);
     }
 
-    public function completeOrder($orderId)
+    public function completeOrder($orderId, $externalOrderId)
     {
         $gql = (new \GraphQL\Mutation('updateOrder'))
             ->setVariables(
@@ -194,6 +194,7 @@ class GraphQL
             [
                 'id' => $orderId,
                 'input' => [
+                    "externalId" => $externalOrderId,
                     "fulfillmentStatus" => "FULFILLED"
                 ]
             ]
