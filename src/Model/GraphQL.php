@@ -26,7 +26,7 @@ class GraphQL
                 ['id']
             );
 
-        return $this->client->runQuery($gql, true, ['input' => $product]);
+        return $this->client->runQuery($gql, true, ['input' => $product])->getResponseBody();
     }
 
     public function getProductBySpecificId($identificatorName, $idValue)
