@@ -171,6 +171,40 @@ class GraphQL
         )->getResponseBody(), true);
     }
 
+    public function updateAvailabilities($orderId, $availabilities)
+    {
+        $gql = (new \GraphQL\Mutation('updateOrder'))
+            ->setVariables(
+                [
+                    new \GraphQL\Variable('id', 'ID', true),
+                    new \GraphQL\Variable('input', 'OrderInput', true)
+                ]
+            )
+            ->setArguments(['id' => '$id', 'input' => '$input'])
+            ->setSelectionSet(
+                [
+                    (new \GraphQL\Query('lineItems'))
+                        ->setSelectionSet(
+                            [
+                                'id',
+                                'available'
+                            ]
+                        ),
+                ]
+            );
+
+        return json_decode($this->client->runQuery(
+            $gql,
+            true,
+            [
+                'id' => $orderId,
+                'input' => [
+                    'line_items' => $availabilities
+                ]
+            ]
+        )->getResponseBody(), true);
+    }
+
     public function completeOrder($orderId, $externalOrderId)
     {
         $gql = (new \GraphQL\Mutation('updateOrder'))
