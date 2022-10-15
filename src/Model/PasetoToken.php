@@ -9,7 +9,7 @@ class PasetoToken
     public function getSignedToken($sharedKey, string $footer = '', string $exp = 'P01D')
     {
         if (!$this->token) {
-            $sharedKey = new \ParagonIE\Paseto\Keys\SymmetricKey(base64_decode($sharedKey));
+            $sharedKey = new \ParagonIE\Paseto\Keys\SymmetricKey(base64_decode($sharedKey), new \ParagonIE\Paseto\Protocol\Version2);
             $token = (new \ParagonIE\Paseto\Builder())
                 ->setKey($sharedKey)
                 ->setVersion(new \ParagonIE\Paseto\Protocol\Version2)
@@ -27,7 +27,7 @@ class PasetoToken
 
     public function verifyToken($token, $sharedKey, $footer)
     {
-        $key = new \ParagonIE\Paseto\Keys\SymmetricKey(base64_decode($sharedKey));
+        $key = new \ParagonIE\Paseto\Keys\SymmetricKey(base64_decode($sharedKey), new \ParagonIE\Paseto\Protocol\Version2);
         $footer = \ParagonIE\ConstantTime\Base64UrlSafe::decode($footer);
         $decryptedToken = \ParagonIE\Paseto\Protocol\Version2::decrypt($token, $key, $footer);
         $rawDecryptedToken = json_decode($decryptedToken);
