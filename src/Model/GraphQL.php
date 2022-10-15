@@ -74,7 +74,8 @@ class GraphQL
                             'id',
                             'productExternalId',
                             'variantExternalId',
-                            'quantity'
+                            'quantity',
+                            'price'
                         ]
                     ),
                 'shippingAddressZip',
