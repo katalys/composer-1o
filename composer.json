@@ -8,7 +8,7 @@
     }
   },
   "require": {
-    "1o/paseto": "^3",
+    "1o/paseto": "dev-master",
     "gmostafa/php-graphql-client": "^1.13"
   }
 }
