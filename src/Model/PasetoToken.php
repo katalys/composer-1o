@@ -2,10 +2,25 @@
 
 namespace OneO\Model;
 
+/**
+ * PasetoToken class
+ */
 class PasetoToken
 {
+    /**
+     * @var null|string
+     */
     protected $token = null;
 
+    /**
+     * @param $sharedKey
+     * @param string $footer
+     * @param string $exp
+     * @return string|null
+     * @throws \ParagonIE\Paseto\Exception\InvalidKeyException
+     * @throws \ParagonIE\Paseto\Exception\InvalidPurposeException
+     * @throws \ParagonIE\Paseto\Exception\PasetoException
+     */
     public function getSignedToken($sharedKey, string $footer = '', string $exp = 'P01D')
     {
         if (!$this->token) {
@@ -25,6 +40,14 @@ class PasetoToken
         return $this->token;
     }
 
+    /**
+     * @param $token
+     * @param $sharedKey
+     * @param $footer
+     * @return bool
+     * @throws \ParagonIE\Paseto\Exception\PasetoException
+     * @throws \SodiumException
+     */
     public function verifyToken($token, $sharedKey, $footer)
     {
         $key = new \ParagonIE\Paseto\Keys\SymmetricKey(base64_decode($sharedKey), new \ParagonIE\Paseto\Protocol\Version2);

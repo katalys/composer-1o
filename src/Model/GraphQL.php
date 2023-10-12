@@ -2,21 +2,38 @@
 
 namespace OneO\Model;
 
+/**
+ * GraphQL class
+ */
 class GraphQL
 {
+    /**
+     * @var \GraphQL\Client
+     */
     protected $client;
 
+    /**
+     * @param string $url
+     * @param string $bearerToken
+     */
     public function __construct($url, $bearerToken)
     {
         $this->client = new \GraphQL\Client($url, ['Authorization' => "Bearer $bearerToken"]);
     }
 
+    /**
+     * @return string
+     */
     public function healthCheck()
     {
         $gql = (new \GraphQL\Query('healthCheck'));
         return $this->client->runQuery($gql)->getResponseBody();
     }
 
+    /**
+     * @param $product
+     * @return mixed
+     */
     public function createProduct($product)
     {
         $gql = $mutation = (new \GraphQL\Mutation('createProduct'))
@@ -26,9 +43,19 @@ class GraphQL
                 ['id']
             );
 
-        return json_decode($this->client->runQuery($gql, true, ['input' => $product])->getResponseBody(), true);
+        return json_decode(
+            $this->client->runQuery(
+                $gql,
+                true,
+                ['input' => $product]
+            )->getResponseBody(), true);
     }
 
+    /**
+     * @param string $identificatorName
+     * @param string $idValue
+     * @return string
+     */
     public function getProductBySpecificId($identificatorName, $idValue)
     {
         switch ($identificatorName) {
@@ -50,16 +77,28 @@ class GraphQL
         return $this->client->runQuery($gql, true, [$identificatorName => $idValue])->getResponseBody();
     }
 
+    /**
+     * @param string $id
+     * @return string
+     */
     public function getProductByExternalId($id)
     {
         return $this->getProductBySpecificId("externalId", $id);
     }
 
+    /**
+     * @param string $id
+     * @return string
+     */
     public function getProductById($id)
     {
         return $this->getProductBySpecificId("id", $id);
     }
 
+    /**
+     * @param string $id
+     * @return mixed
+     */
     public function getOrderDetails($id)
     {
         $gql = (new \GraphQL\Query('order'))
@@ -103,9 +142,19 @@ class GraphQL
                 'chosenShippingRateHandle'
             ]);
 
-        return json_decode($this->client->runQuery($gql, true, ['id' => $id])->getResponseBody(), true)["data"]["order"];
+        return json_decode(
+            $this->client->runQuery(
+                $gql,
+                true,
+                ['id' => $id]
+            )->getResponseBody(), true)["data"]["order"];
     }
 
+    /**
+     * @param string $orderId
+     * @param array $shippingRates
+     * @return mixed
+     */
     public function updateShippingRates($orderId, $shippingRates)
     {
         $gql = (new \GraphQL\Mutation('updateOrder'))
@@ -140,6 +189,11 @@ class GraphQL
         )->getResponseBody(), true);
     }
 
+    /**
+     * @param string $orderId
+     * @param string $taxes
+     * @return mixed
+     */
     public function updateTaxes($orderId, $taxes)
     {
         $gql = (new \GraphQL\Mutation('updateOrder'))
@@ -172,6 +226,11 @@ class GraphQL
         )->getResponseBody(), true);
     }
 
+    /**
+     * @param string $orderId
+     * @param array $availabilities
+     * @return mixed
+     */
     public function updateAvailabilities($orderId, $availabilities)
     {
         $gql = (new \GraphQL\Mutation('updateOrder'))
@@ -206,6 +265,11 @@ class GraphQL
         )->getResponseBody(), true);
     }
 
+    /**
+     * @param string $orderId
+     * @param string $externalOrderId
+     * @return mixed
+     */
     public function completeOrder($orderId, $externalOrderId)
     {
         $gql = (new \GraphQL\Mutation('updateOrder'))
