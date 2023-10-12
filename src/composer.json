@@ -1,0 +1,18 @@
+{
+    "name": "1o/php-utils",
+    "description": "Composer package for 1o integration",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "OneO\\": "src/"
+        }
+    },
+    "require": {
+        "paragonie/paseto": "^1.1",
+        "paragonie/constant_time_encoding": "^2.6",
+        "paragonie/corner": "^2.0",
+        "paragonie/easy-ecc": "^1.0",
+        "paragonie/sodium_compat": "^1.20",
+        "gmostafa/php-graphql-client": "^1.13"
+    }
+}
