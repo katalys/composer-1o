@@ -1,5 +1,5 @@
 {
-    "name": "1o/php-utils",
+    "name": "katalys/php-utils",
     "description": "Composer package for 1o integration",
     "type": "library",
     "autoload": {
@@ -8,11 +8,17 @@
         }
     },
     "require": {
-        "paragonie/paseto": "^1.1",
+        "katalys/paseto": "^1.1",
         "paragonie/constant_time_encoding": "^2.6",
         "paragonie/corner": "^2.0",
         "paragonie/easy-ecc": "^1.0",
         "paragonie/sodium_compat": "^1.20",
         "gmostafa/php-graphql-client": "^1.13"
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "https://github.com/katalys/paseto-php.git"
+        }
+    ]
 }
