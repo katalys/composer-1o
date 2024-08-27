@@ -1,6 +1,6 @@
 <?php
 
-namespace OneO\Model;
+namespace Katalys\Model;
 
 /**
  * PasetoToken class
